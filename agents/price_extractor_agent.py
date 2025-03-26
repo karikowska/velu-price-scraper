@@ -10,6 +10,7 @@ def extract_price_info(product_name: str, url: str, html_snippet: str) -> dict:
             "You are an assistant that extracts product prices from provided HTML snippets. "
             "You are NOT expected to access URLs or browse the web. "
             "Just analyze the HTML text passed in and extract the price and currency if possible."
+            "Make sure to convert the price to GBP according to today's exchange rate."
         )),
         HumanMessage(content=(
             f"Product: {product_name}\n"

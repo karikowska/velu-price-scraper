@@ -39,6 +39,8 @@ def search_duckduckgo(site: str, query: str, limit=5) -> list:
 
         if len(results) >= limit:
             break
+        
+    print(f"[DEBUG] Found {len(results)} result(s) for: site:{site} {query}")
 
     return results
 

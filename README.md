@@ -17,7 +17,7 @@ An AI-powered price-checking tool that scrapes figure listings from websites lik
 ## 🧪 Example Command & Output
 Command:
 ```
-$ python main_flexible.py "Hatsune Miku Nendoroid" solaris
+$ python main.py "Hatsune Miku Nendoroid" solaris
 ```
 
 Sample output:
@@ -30,23 +30,32 @@ Sample output:
 ## 🚀 Getting Started
 
 ### 1. Install dependencies
-
+To install dependencies in this project, use the following command:
 ```
 pip install -r requirements.txt
 ```
 
-You'll also need an OpenAI API key. Set it in your cmd using ```export``` or place within a .env file as such:
+You'll also need an OpenAI API key. Set it in your terminal using ```export``` or place within a .env file as such:
 ```
 OPENAI_API_KEY=...
 ```
+
+### 2. Usage
+To run the price scraper, you will need the following command:
+```
+$ python main.py "<nameofitem>" <nameofsupportedservice>
+```
+
+Currently, the only supported service is Solaris Japan. Other websites I've tried are much more resistant to scraping, or fetch completely irrelevant results.
 
 -to be continued-
 
 ## TODO in order of importance:
 
-- finish README instructions to run
-- make batch json input method work
-- expand functionality to more websites than just Solaris Japan
-- change output format into CSV
-- add web UI or a dashboard to show results
-- add license to repo
+- [ ] finish README instructions to run
+- [ ] make batch json input method work
+- [ ] expand functionality to more websites than just Solaris Japan
+- [ ] change output format into CSV
+- [ ] add database integration to save results
+- [ ] add web UI or a dashboard to show results
+- [ ] add license to repo

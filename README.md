@@ -50,7 +50,7 @@ Currently, the only supported service is Solaris Japan, or ```solaris```. Other 
 
 -to be continued-
 
-## TODO in order of importance:
+## 📝 TODO in order of importance:
 
 - [x] finish README instructions to run
 - [ ] make batch json input method work

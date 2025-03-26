@@ -46,13 +46,13 @@ To run the price scraper, you will need the following command:
 $ python main.py "<nameofitem>" <nameofsupportedservice>
 ```
 
-Currently, the only supported service is Solaris Japan. Other websites I've tried are much more resistant to scraping, or fetch completely irrelevant results.
+Currently, the only supported service is Solaris Japan, or ```solaris```. Other websites I've tried are much more resistant to scraping, or fetch completely irrelevant results.
 
 -to be continued-
 
 ## TODO in order of importance:
 
-- [ ] finish README instructions to run
+- [x] finish README instructions to run
 - [ ] make batch json input method work
 - [ ] expand functionality to more websites than just Solaris Japan
 - [ ] change output format into CSV

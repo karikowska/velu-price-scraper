@@ -56,6 +56,7 @@ Currently, the only supported service is Solaris Japan, or ```solaris```. Other 
 - [ ] make batch json input method work
 - [ ] expand functionality to more websites than just Solaris Japan
 - [ ] change output format into CSV
+- [ ] add unit tests
 - [ ] add database integration to save results
 - [ ] add web UI or a dashboard to show results
 - [ ] add license to repo

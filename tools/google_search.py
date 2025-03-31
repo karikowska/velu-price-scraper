@@ -19,4 +19,5 @@ def search_google(site: str, query: str, limit=5) -> list:
             title = a_tag.get_text()
             links.append({"title": title, "url": link})
 
+    print(links)
     return links

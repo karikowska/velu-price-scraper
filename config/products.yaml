@@ -1,0 +1,10 @@
+- name: Hatsune Miku Pop Up Parade Galaxy Live
+  stores:
+    - amiami
+    - nng
+    - solaris
+
+- name: Hatsune Miku Virtual Popstar Ver.
+  stores:
+    - amiami
+    - solaris

@@ -19,12 +19,16 @@ I collect figures in my free time and love getting a good deal - but this can be
 ## 🧪 Example Command & Output
 Command:
 ```
-$ python main.py "Hatsune Miku Nendoroid" sol
+$ python main.py "Hatsune Miku Rascal Trio-Try-It" sol
 ```
 
 Sample output:
 ```
-🛒 Best match for 'Hatsune Miku Nendoroid' on solaris: The price of the "Hatsune Miku - Racing 2023 Ver." is ¥6980 JPY.
+🔎 Scraping: Araiguma Rascal - Vocaloid - Hatsune Miku - Rascal - Trio-Try-iT - Akuma (FuRyu)
+https://solarisjapan.com//products/araiguma-rascal-vocaloid-hatsune-miku-rascal-trio-try-it-akuma-furyu?oid=268825&qid=9546401fd66c683846ba8262b7713d55
+💷 Price: ¥17,120 | Raw: This is a figure listing.
+
+The price of the Araiguma Rascal - Vocaloid - Hatsune Miku - Rascal - Trio-Try-iT - Akuma figure is ¥17,120 JPY. After converting from JPY to GBP, the final price is £120.
 ```
 
 ---
@@ -54,14 +58,13 @@ To run the price scraper in bulk, you will need to create a YAML file that looks
 ```
 - name: Hatsune Miku Pop Up Parade Galaxy Live
   stores:
-    - amiami
+    - anim
     - nng
-    - solaris
 
 - name: Hatsune Miku Virtual Popstar Ver.
   stores:
-    - amiami
-    - solaris
+    - nng
+    - sol
 ```
 
 And then run the following command to invoke it:
@@ -70,7 +73,12 @@ $ python main.py "path/to/config.yaml"
 ```
 
 ### 3. Supported Stores
-Currently, the only supported services are Solaris Japan, or ```sol```, and Nin-Nin Game, or ```nng```. I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare to completely block my traffic and serve me zero results.
+Currently, the only supported services are:
+- Solaris Japan == ```sol```
+- Nin-Nin Game == ```nng```
+- Animota == ```anim```
+
+I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I seem to be getting obfuscated results. I need to work on it a bit more.
 
 -to be continued-
 
@@ -79,7 +87,7 @@ Currently, the only supported services are Solaris Japan, or ```sol```, and Nin-
 ## 📝 TODO in order of importance:
 
 - [x] finish README instructions to run
-- [ ] make batch YAML input method work
+- [x] make batch YAML input method work
 - [x] expand functionality to more websites than just Solaris Japan
 - [ ] add other stores like Animota, Japan Figure Store, Tokyo Otaku Mode, Hobby Japan... (if they are scrapable!)
 - [ ] add reseller sites like Depop, Vinted or Ebay
@@ -91,3 +99,9 @@ Currently, the only supported services are Solaris Japan, or ```sol```, and Nin-
 - [ ] add Streamlit integration to talk to the LLM directly?
 - [ ] add web UI or a dashboard to show results
 - [ ] add license to repo
+
+---
+
+## DISCLAIMER
+
+I do not own any of the stores mentioned above. I do not own Hatsune Miku either, she is property of Crypton Future Media. All I own here is the code for the price scraper.

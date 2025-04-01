@@ -89,6 +89,7 @@ I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I
 - [x] finish README instructions to run
 - [x] make batch YAML input method work
 - [x] expand functionality to more websites than just Solaris Japan
+- [ ] look into why AmiAmi can't have its prices scraped and if we can go around that
 - [ ] add other stores like Animota, Japan Figure Store, Tokyo Otaku Mode, Hobby Japan... (if they are scrapable!)
 - [ ] add reseller sites like Depop, Vinted or Ebay
 - [ ] add JP stores like Mercari.jp and Buyee with translation

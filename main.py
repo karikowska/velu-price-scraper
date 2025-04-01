@@ -9,13 +9,14 @@ from tools.amiami_search import get_search_results as amiami_search
 from tools.amazon_search import get_search_results as amazon_search
 from tools.solaris_search import get_search_results as solaris_search
 from tools.ninningame_search import get_search_results as ninningame_search
-from tools.google_search import search_google as google_search
+from tools.animota_search import get_search_results as animota_search
 from agents.price_selector_agent import pick_best_listing
-from tools.ddg_search import search_duckduckgo
 
 def shop_check(query: str, site: str):
     if site == 'amzn':
         links = amazon_search(query)
+    if site == 'anim':
+        links = animota_search(query)
     elif site == 'sol':
         links = solaris_search(query)
     elif site == 'ebay':
@@ -42,26 +43,30 @@ def main() -> str:
     else:
         print("Single query usage: python main.py '<product_query>' '<site>'")
         print("Multi-query usage: python main.py 'path/to/config/yaml'")
-        print("Supported sites: aa, ebay, amzn, sol, nng")
+        print("Supported sites: aa, anim, ebay, amzn, sol, nng")
         return
 
     print(config)
     if config:
+        links = []
         for config_d in config:
             query = config_d["name"]
             site_list = config_d["stores"]
             for site in site_list:
-                print(query, site)
-                links = shop_check(query, site)
-                sleep(5)
+                links.append(shop_check(query, site))
+                sleep(1)
     
     else:
         links = shop_check(query, site)
         
     if not links:
         return "❌ No results found."
+    
+    print(links)
 
     for link in links[:3]:
+        if type(link) == list:
+            link = link[0]
         print(f"\n🔎 Scraping: {link['title']}\n{link['url']}")
         html = get_html(link["url"])
         snippet = get_text_snippets(html)
@@ -71,7 +76,7 @@ def main() -> str:
             continue
 
         result = extract_price_info(query, link["url"], snippet)
-        return f"💷 Price: {result['price']} | Raw: {result['raw_response']}"
+        print(f"💷 Price: {result['price']} | Raw: {result['raw_response']}")
         
 
 if __name__ == "__main__":

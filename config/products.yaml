@@ -1,8 +1,5 @@
-- name: Hatsune Miku Pop Up Parade PSI
+- name: Hatsune Miku Rascal Trio-Try-It
   stores:
     - nng
     - sol
-
-- name: Hatsune Miku Virtual Popstar Ver.
-  stores:
-    - sol
+    - anim

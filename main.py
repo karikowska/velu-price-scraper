@@ -1,6 +1,7 @@
 import sys
 import yaml
 from pathlib import Path
+from time import sleep
 
 from tools.scraper import get_html, get_text_snippets
 from agents.price_extractor_agent import extract_price_info
@@ -44,11 +45,15 @@ def main() -> str:
         print("Supported sites: aa, ebay, amzn, sol, nng")
         return
 
+    print(config)
     if config:
         for config_d in config:
-            for query, site_list in config_d.items():
-                for site in site_list:
-                    links = shop_check(query, site)
+            query = config_d["name"]
+            site_list = config_d["stores"]
+            for site in site_list:
+                print(query, site)
+                links = shop_check(query, site)
+                sleep(5)
     
     else:
         links = shop_check(query, site)

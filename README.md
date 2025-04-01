@@ -43,12 +43,13 @@ OPENAI_API_KEY=...
 ```
 
 ### 2. Usage
-## Single item
+#### Single item
 To run the single item price scraper, you will need the following command:
 ```
 $ python main.py "<nameofitem>" <nameofsupportedservice>
 ```
-## Bulk
+
+#### Bulk
 To run the price scraper in bulk, you will need to create a YAML file that looks like this:
 ```
 - name: Hatsune Miku Pop Up Parade Galaxy Live
@@ -68,9 +69,12 @@ And then run the following command to invoke it:
 $ python main.py "path/to/config.yaml"
 ```
 
+### 3. Supported Stores
 Currently, the only supported services are Solaris Japan, or ```sol```, and Nin-Nin Game, or ```nng```. I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare to completely block my traffic and serve me zero results.
 
 -to be continued-
+
+---
 
 ## 📝 TODO in order of importance:
 

@@ -2,9 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 
-FAKE_UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                  "AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/122.0.0.0 Safari/537.36"}
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    )
+}
+
+FAKE_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+
 
 def browser_loader(link: str, query: str, product_grid_tag: str, grid_item_tag: str) -> list[dict[str, str]]:
     """Initialize a browser session using Playwright."""
@@ -27,7 +34,7 @@ def browser_loader(link: str, query: str, product_grid_tag: str, grid_item_tag: 
 def get_html(url: str) -> str:
     """Fetch raw HTML from the given URL."""
     try:
-        response = requests.get(url, headers=FAKE_UA, timeout=10)
+        response = requests.get(url, headers=HEADERS, timeout=10)
         response.raise_for_status()
         return response.text
     except requests.RequestException as e:

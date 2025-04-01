@@ -4,7 +4,7 @@ from playwright.sync_api import sync_playwright
 
 FAKE_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
-# !!!IMPORTANT!!! - this doesn't work - AmiAmi uses cloudflare!
+# !!!IMPORTANT!!! - this doesn't work - AmiAmi uses cloudflare! Needs a fix :)
 def get_search_results(query: str, limit=5) -> list:
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
@@ -30,12 +30,9 @@ def get_search_results(query: str, limit=5) -> list:
                 if tag.get('style') != 'display: none;'
             ), 'Unknown')
 
-            print(stock_status)
             if stock_status == 'Unknown':
-                print('hewwwwwo')
                 continue
             elif stock_status == 'Order Closed':
-                print('heyyyyyyy')
                 continue
             
             url = "https://www.amiami.com" + item.select_one('a')['href']

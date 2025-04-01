@@ -6,11 +6,11 @@ from tools.scraper import browser_loader
 FAKE_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
 
-def get_search_results(query: str, limit=5) -> list:
+def get_search_results(query: str, limit=5) -> list[dict[str, str]]:
     items = browser_loader(link=f"https://solarisjapan.com/search/?query={query}",
-                           query=query,
-                           product_grid_tag=".ais-Hits-item", 
-                           grid_item_tag=".ais-Hits-item")
+                            query=query,
+                            product_grid_tag=".ais-Hits-item", 
+                            grid_item_tag=".ais-Hits-item")
 
     results = []
     

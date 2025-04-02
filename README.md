@@ -65,6 +65,7 @@ To run the price scraper in bulk, you will need to create a YAML file that looks
   stores:
     - nng
     - sol
+    - jf
 ```
 
 And then run the following command to invoke it:
@@ -77,6 +78,7 @@ Currently, the only supported services are:
 - Solaris Japan == ```sol```
 - Nin-Nin Game == ```nng```
 - Animota == ```anim```
+- Japan Figure == ```jf```
 
 I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I seem to be getting obfuscated results. I need to work on it a bit more.
 
@@ -89,17 +91,29 @@ I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I
 - [x] finish README instructions to run
 - [x] make batch YAML input method work
 - [x] expand functionality to more websites than just Solaris Japan
-- [ ] look into why AmiAmi can't have its prices scraped and if we can go around that
 - [ ] add other stores like Animota, Japan Figure Store, Tokyo Otaku Mode, Hobby Japan... (if they are scrapable!)
 - [ ] add reseller sites like Depop, Vinted or Ebay
 - [ ] add JP stores like Mercari.jp and Buyee with translation
+- [ ] add NLP to replace where an LLM doesn't need to be!
 - [ ] add a wishlist feature (YAML) - user has a wishlist which they can run the scraper on regularly to monitor for current best prices in the file (automation through Bash script?)
 - [ ] add preferred budget per figure (YAML) - results will not be shown unless they are less than the budget!
+- [ ] look into why AmiAmi can't have its prices scraped and if we can go around that
+- [ ] add an LLM that will delete listings that are not relevant to figure-finding OR just use NLP to verify strings against a corpus
 - [ ] add unit tests
 - [ ] add database integration to save results
 - [ ] add Streamlit integration to talk to the LLM directly?
 - [ ] add web UI or a dashboard to show results
 - [ ] add license to repo
+
+---
+
+## Lessons learned!
+
+This project has taught me:
+- web scraping and BeautifulSoup4!
+- LangChain, prompting and dealing with token limitations
+- how to efficiently wade through Inspect Element
+- how to build and modularize a mini-app
 
 ---
 

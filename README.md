@@ -85,14 +85,18 @@ I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I
 
 ---
 
-## 🚀 Lessons Learned
+## 🎓 Lessons learned!
 
 This project has:
 
 🐍 Reinforced my Python skills
+
 🌐 Taught me web scraping with BeautifulSoup4
+
 🧠 Introduced me to LangChain, effective prompting, and handling token limitations
+
 🔍 Helped me efficiently navigate Inspect Element and browser dev tools
+
 🧱 Shown me how to build and modularize a mini-app effectively
 
 ---

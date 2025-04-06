@@ -85,7 +85,19 @@ I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I
 
 ---
 
-## 📝 TODO in order of importance:
+## 🚀 Lessons Learned
+
+This project has:
+
+🐍 Reinforced my Python skills
+🌐 Taught me web scraping with BeautifulSoup4
+🧠 Introduced me to LangChain, effective prompting, and handling token limitations
+🔍 Helped me efficiently navigate Inspect Element and browser dev tools
+🧱 Shown me how to build and modularize a mini-app effectively
+
+---
+
+## 📝 Future TODOs on this project:
 
 - [x] finish README instructions to run
 - [x] make batch YAML input method work
@@ -103,17 +115,6 @@ I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I
 - [ ] add Streamlit integration to talk to the LLM directly?
 - [ ] add web UI or a dashboard to show results
 - [ ] add license to repo
-
----
-
-## Lessons learned!
-
-This project has:
-- reinforced my Python skills
-- taught me web scraping and BeautifulSoup4!
-- taught me LangChain, prompting and dealing with token limitations
-- made me learn to efficiently wade through Inspect Element
-- shown me how to build and modularize a mini-app
 
 ---
 

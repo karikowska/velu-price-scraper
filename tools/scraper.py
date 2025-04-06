@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+import re
 
 HEADERS = {
     "User-Agent": (
@@ -20,7 +22,12 @@ def browser_loader(link: str, query: str, product_grid_tag: str, grid_item_tag: 
         page = browser.new_page(user_agent=FAKE_UA)
         page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         page.goto(link)
-        page.wait_for_selector(product_grid_tag)
+        try:
+            page.wait_for_selector(product_grid_tag, timeout=5_000)  # timeout in ms
+        except PlaywrightTimeoutError:
+            print(f"Timeout: '{product_grid_tag}' not found on the page after 5 seconds.")
+            browser.close()
+            return []
         
         content = page.content()
         soup = BeautifulSoup(content, "html.parser")
@@ -43,13 +50,20 @@ def get_html(url: str) -> str:
 
 
 def get_text_snippets(html: str, limit=10) -> str:
-    """Extract potentially price-relevant text from HTML."""
+    """Extract text snippets from HTML to feed to LLM to extract price."""
     soup = BeautifulSoup(html, "html.parser")
-    snippets = []
+    snippets = set()  # use set to avoid duplicates
+
+    # regex to match typical price patterns
+    price_pattern = re.compile(r"(?i)([\$£€¥]?\s?\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?\s?(USD|GBP|EUR|JPY)?)")
 
     for tag in soup.find_all(["div", "span", "p", "li"]):
-        text = tag.get_text().strip()
-        if text and any(symbol in text for symbol in ["$", "£", "€", "¥", "USD", "GBP", "EUR", "JPY"]):
-            snippets.append(text)
+        text = tag.get_text(separator=" ", strip=True)
+        if price_pattern.search(text):
+            cleaned = re.sub(r"\s+", " ", text).strip()
+            if len(cleaned) > 5:
+                snippets.add(cleaned)
+            if len(snippets) >= limit:
+                break
 
-    return "\n".join(snippets[:limit])
+    return "\n".join(sorted(snippets))  # sorted for stable output

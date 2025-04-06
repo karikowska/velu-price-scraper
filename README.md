@@ -8,10 +8,9 @@ I collect figures in my free time and love getting a good deal - but this can be
 
 ## ✨ Features
 
-- 🔍 Scrapes real-time product listings from supported sites (currently Nin-Nin Game, Solaris Japan)
+- 🔍 Scrapes real-time product listings from supported sites
 - 💬 Uses an LLM agent to extract and interpret price information from messy HTML
-- 🧠 Selects the most relevant or cheapest listing (not yet!)
-- 🗂️ Supports single-product CLI mode and batch YAML input (working on this!)
+- 🗂️ Supports single-product CLI mode and batch YAML input
 - ⚙️ Modular and very easy to extend to other figure stores! (as long as you are willing to put in the extra work to scroll through their Inspect Element menus to figure out what goes where 🙃)
 
 ---
@@ -73,6 +72,8 @@ And then run the following command to invoke it:
 $ python main.py "path/to/config.yaml"
 ```
 
+If you type in too many stores + queries in a row in one YAML, you may run into an issue with token length. As the input and output of the LLM (for now at least) is not being closely prompt-engineered to perfection, it might take a few retries to get it your request under token i/o limit.
+
 ### 3. Supported Stores
 Currently, the only supported services are:
 - Solaris Japan == ```sol```
@@ -81,8 +82,6 @@ Currently, the only supported services are:
 - Japan Figure == ```jf```
 
 I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I seem to be getting obfuscated results. I need to work on it a bit more.
-
--to be continued-
 
 ---
 
@@ -94,7 +93,7 @@ I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I
 - [ ] add other stores like Animota, Japan Figure Store, Tokyo Otaku Mode, Hobby Japan... (if they are scrapable!)
 - [ ] add reseller sites like Depop, Vinted or Ebay
 - [ ] add JP stores like Mercari.jp and Buyee with translation
-- [ ] add NLP to replace where an LLM doesn't need to be!
+- [ ] add NLP to replace where an LLM doesn't need to be to optimise i/o tokens!
 - [ ] add a wishlist feature (YAML) - user has a wishlist which they can run the scraper on regularly to monitor for current best prices in the file (automation through Bash script?)
 - [ ] add preferred budget per figure (YAML) - results will not be shown unless they are less than the budget!
 - [ ] look into why AmiAmi can't have its prices scraped and if we can go around that
@@ -109,11 +108,12 @@ I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I
 
 ## Lessons learned!
 
-This project has taught me:
-- web scraping and BeautifulSoup4!
-- LangChain, prompting and dealing with token limitations
-- how to efficiently wade through Inspect Element
-- how to build and modularize a mini-app
+This project has:
+- reinforced my Python skills
+- taught me web scraping and BeautifulSoup4!
+- taught me LangChain, prompting and dealing with token limitations
+- made me learn to efficiently wade through Inspect Element
+- shown me how to build and modularize a mini-app
 
 ---
 

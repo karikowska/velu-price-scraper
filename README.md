@@ -105,6 +105,7 @@ This project has:
 
 - [x] finish README instructions to run
 - [x] make batch YAML input method work
+- [x] add Playwright to preload bits of websites
 - [x] expand functionality to more websites than just Solaris Japan
 - [x] add other stores like Animota, Japan Figure Store... (if they are scrapable!)
 - [ ] add reseller sites like Depop, Vinted or Ebay

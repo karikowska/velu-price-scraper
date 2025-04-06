@@ -106,14 +106,14 @@ This project has:
 - [x] finish README instructions to run
 - [x] make batch YAML input method work
 - [x] expand functionality to more websites than just Solaris Japan
-- [ ] add other stores like Animota, Japan Figure Store, Tokyo Otaku Mode, Hobby Japan... (if they are scrapable!)
+- [x] add other stores like Animota, Japan Figure Store... (if they are scrapable!)
 - [ ] add reseller sites like Depop, Vinted or Ebay
 - [ ] add JP stores like Mercari.jp and Buyee with translation
+- [ ] use embeddings to score whether the titles of the products are relevant to the query
 - [ ] add NLP to replace where an LLM doesn't need to be to optimise i/o tokens!
 - [ ] add a wishlist feature (YAML) - user has a wishlist which they can run the scraper on regularly to monitor for current best prices in the file (automation through Bash script?)
 - [ ] add preferred budget per figure (YAML) - results will not be shown unless they are less than the budget!
 - [ ] look into why AmiAmi can't have its prices scraped and if we can go around that
-- [ ] add an LLM that will delete listings that are not relevant to figure-finding OR just use NLP to verify strings against a corpus
 - [ ] add unit tests
 - [ ] add database integration to save results
 - [ ] add Streamlit integration to talk to the LLM directly?

@@ -9,7 +9,7 @@ I collect figures in my free time and love getting a good deal - but this can be
 ## ✨ Features
 
 - 🔍 Scrapes real-time product listings from supported sites
-- 💬 Uses an LLM agent to extract and interpret price information from messy HTML
+- 💬 Uses an LLM agent to extract and interpret price information from messy HTML, and NLP methods to ensure that the output is relevant to the input query
 - 🗂️ Supports single-product CLI mode and batch YAML input
 - ⚙️ Modular and very easy to extend to other figure stores! (as long as you are willing to put in the extra work to scroll through their Inspect Element menus to figure out what goes where 🙃)
 
@@ -95,7 +95,9 @@ This project has:
 
 🧠 Introduced me to LangChain, effective prompting, and handling token limitations
 
-🔍 Helped me efficiently navigate Inspect Element and browser dev tools
+🔤 Refreshed my NLP skills, including usage of SentenceTransformers and vector embeddings
+
+🔍 Shown me how to navigate Inspect Element and browser dev tools
 
 🧱 Shown me how to build and modularize a mini-app effectively
 
@@ -110,7 +112,7 @@ This project has:
 - [x] add other stores like Animota, Japan Figure Store... (if they are scrapable!)
 - [ ] add reseller sites like Depop, Vinted or Ebay
 - [ ] add JP stores like Mercari.jp and Buyee with translation
-- [ ] use embeddings to score whether the titles of the products are relevant to the query
+- [x] use embeddings to score whether the titles of the products are relevant to the query
 - [ ] add NLP to replace where an LLM doesn't need to be to optimise i/o tokens!
 - [ ] add a wishlist feature (YAML) - user has a wishlist which they can run the scraper on regularly to monitor for current best prices in the file (automation through Bash script?)
 - [ ] add preferred budget per figure (YAML) - results will not be shown unless they are less than the budget!

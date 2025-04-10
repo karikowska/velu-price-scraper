@@ -18,7 +18,7 @@ I collect figures in my free time and love getting a good deal - but this can be
 - 🔍 Scrapes real-time product listings from supported sites
 - 💬 Uses an LLM agent to extract and interpret price information from messy HTML, and NLP methods to ensure that the output is relevant to the input query
 - 🗂️ Supports single-product CLI mode and batch YAML input
-- ⚙️ Modular and very easy to extend to other figure stores! (as long as you are willing to put in the extra work to scroll through their Inspect Element menus to figure out what goes where 🙃)
+- ⚙️ Modular and very easy to extend to other figure stores!
 
 ---
 

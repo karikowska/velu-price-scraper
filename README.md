@@ -82,11 +82,12 @@ $ python main.py "path/to/config.yaml"
 If you type in too many stores + queries in a row in one YAML, you may run into an issue with token length. As the input and output of the LLM (for now at least) is not being closely prompt-engineered to perfection, it might take a few retries to get it your request under token i/o limit.
 
 ### 3. Supported Stores
-Currently, the only supported services are:
+Currently, the supported services are:
 - Solaris Japan == ```sol```
 - Nin-Nin Game == ```nng```
 - Animota == ```anim```
 - Japan Figure == ```jf```
+- Good Smile Europe == ```gsce```
 
 I've coded up a complete scraper for AmiAmi, but they sadly use Cloudflare and I seem to be getting obfuscated results. I need to work on it a bit more.
 

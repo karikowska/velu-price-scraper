@@ -30,5 +30,4 @@ def get_search_results(query: str, limit=5) -> list[dict[str, str]]:
             "url": url
         })
 
-        if len(results) >= limit:
-            return results
+    return results

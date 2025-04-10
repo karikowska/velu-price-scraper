@@ -14,6 +14,7 @@ from tools.amiami_search import get_search_results as amiami_search
 from tools.solaris_search import get_search_results as solaris_search
 from tools.ninningame_search import get_search_results as ninningame_search
 from tools.animota_search import get_search_results as animota_search
+from tools.goodsmileeurope_search import get_search_results as goodsmileeurope_search
 from tools.japan_figure_search import get_search_results as japanfigure_search
 from tools.transformer_tools import embedding_ranker
 
@@ -29,6 +30,8 @@ def shop_check(query: str, site: str):
         links = ninningame_search(query)
     elif site == 'jf':
         links = japanfigure_search(query)
+    elif site == 'gsce':
+        links = goodsmileeurope_search(query)
         
     return links
 
@@ -47,7 +50,7 @@ def main() -> str:
     else:
         print("Single query usage: python main.py '<product_query>' '<site>'")
         print("Multi-query usage: python main.py 'path/to/config/yaml'")
-        print("Supported sites: aa, anim, jf, sol, nng")
+        print("Supported sites: aa, anim, jf, sol, nng, gsce")
         return
 
     if config:
@@ -66,7 +69,13 @@ def main() -> str:
         return "❌ No results found."
     
     links = embedding_ranker(links, query)
-    for link in links[:(len(site_list) if site_list else 3)]:
+    
+    try:
+        site_list
+    except NameError:
+        site_list = 0
+        
+    for link in links[:(len(site_list) if site_list>1 else 3)]:
         if type(link) == list and len(link) > 1:
             link = link[0]
         print(f"\n🔎 Scraping: {link['title']}\n{link['url']}")

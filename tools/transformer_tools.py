@@ -1,12 +1,12 @@
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 # needs refactoring
 def embedding_ranker(products: list[list[dict[str, str]]], query: str, threshold: float = 0.5):
-    products = [item for sublist in products for item in sublist]
+    #product_list = [item for sublist in products for item in sublist]
+    print(products)
     titles = [product["title"] for product in products]
     embeddings = model.encode([query] + titles)
 

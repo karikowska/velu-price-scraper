@@ -1,4 +1,11 @@
-# 🛍️ Velu - AI Price Scraper
+# 🛍️ Velu - AI-Powered Price Scraper
+<p align="center">
+  <img src="velu_logo.png" alt="Velu Logo" width="300"/>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Made%20with-Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+</p>
 
 An AI-powered price-checking tool that scrapes figure listings from websites like **Solaris Japan**, extracts prices using **LangChain + OpenAI**, and intelligently fills in the price and picks the best matches. 
 

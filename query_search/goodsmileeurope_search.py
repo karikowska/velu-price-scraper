@@ -1,4 +1,4 @@
-from tools.scraper import browser_loader
+from helpers.scraper import browser_loader
 
 FAKE_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
@@ -11,7 +11,7 @@ def get_search_results(query: str, limit=5) -> list[dict[str, str]]:
     
     results = []
     
-    for item in items:
+    for item in items[:limit]:
         url = "https://goodsmileeurope.com" + item.select_one("a")["href"]
         
         title_tag = item.select_one("div.card__link")

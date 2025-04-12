@@ -2,7 +2,7 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage
 import re
 
-llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.5)
+llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
 def extract_price_info(product_name: str, url: str, html_snippet: str) -> dict:
     messages = [
@@ -18,8 +18,6 @@ def extract_price_info(product_name: str, url: str, html_snippet: str) -> dict:
             "From this HTML, what is the GBP price?"
         ))
     ]
-    
-    # print("HTML:",html_snippet)
 
     response = llm.invoke(messages)
     

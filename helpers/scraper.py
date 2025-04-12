@@ -1,3 +1,4 @@
+"""Helper functions for scraping."""
 import requests
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
@@ -14,7 +15,6 @@ HEADERS = {
 
 FAKE_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 
-
 def browser_loader(link: str, query: str, product_grid_tag: str, grid_item_tag: str) -> list[dict[str, str]]:
     """Initialize a browser session using Playwright."""
     with sync_playwright() as p:
@@ -23,9 +23,9 @@ def browser_loader(link: str, query: str, product_grid_tag: str, grid_item_tag: 
         page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         page.goto(link)
         try:
-            page.wait_for_selector(product_grid_tag, timeout=5_000)  # timeout in ms
+            page.wait_for_selector(product_grid_tag, timeout=10_000)
         except PlaywrightTimeoutError:
-            print(f"Timeout: '{product_grid_tag}' not found on the page after 5 seconds.")
+            print(f"Timeout: '{product_grid_tag}' not found on the page after 10 seconds.")
             browser.close()
             return []
         
@@ -50,11 +50,9 @@ def get_html(url: str) -> str:
 
 
 def get_text_snippets(html: str, limit=10) -> str:
-    """Extract text snippets from HTML to feed to LLM to extract price."""
     soup = BeautifulSoup(html, "html.parser")
-    snippets = set()  # use set to avoid duplicates
+    snippets = set()
 
-    # regex to match typical price patterns
     price_pattern = re.compile(r"(?i)([\$£€¥]?\s?\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?\s?(USD|GBP|EUR|JPY)?)")
 
     for tag in soup.find_all(["div", "span", "p", "li"]):
@@ -66,4 +64,4 @@ def get_text_snippets(html: str, limit=10) -> str:
             if len(snippets) >= limit:
                 break
 
-    return "\n".join(sorted(snippets))  # sorted for stable output
+    return "\n".join(sorted(snippets))

@@ -1,3 +1,4 @@
+"""Helper NLP methods for scraping."""
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -5,7 +6,6 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 
 # needs refactoring
 def embedding_ranker(products: list[list[dict[str, str]]], query: str, threshold: float = 0.5):
-    #product_list = [item for sublist in products for item in sublist]
     print(products)
     titles = [product["title"] for product in products]
     embeddings = model.encode([query] + titles)

@@ -1,3 +1,4 @@
+"""Assorted helper functions."""
 from query_search.amiami_search import get_search_results as amiami_search
 from query_search.solaris_search import get_search_results as solaris_search
 from query_search.ninningame_search import get_search_results as ninningame_search

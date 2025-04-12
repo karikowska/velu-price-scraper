@@ -1,3 +1,4 @@
+"""Uses LLM to extract the price of a product from HTML snippets."""
 from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage
 import re

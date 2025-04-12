@@ -7,6 +7,7 @@ config:
   - search_gsce
   - search_japanfigure
   check_interval_minutes: 60
+  currency: GBP
 products:
 - max_price: 35000
   name: Hatsune Miku Expo 2023 1/7 Scale Figure

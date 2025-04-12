@@ -7,8 +7,45 @@ from langchain.agents import initialize_agent, AgentType
 from helpers.other_helpers import load_config
 
 st.set_page_config(page_title="Velu - Price Scraper Agent", page_icon="💰")
+
+st.markdown("""
+    <style>
+    body {
+        background-color: #1a1a2e;
+    }
+    .stApp {
+        background-color: #1a1a2e;
+        color: #e0e0ff;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .stButton>button {
+        background-color: #7a3fd0;
+        color: white;
+        border-radius: 8px;
+        padding: 0.5em 1.2em;
+        border: none;
+        font-weight: bold;
+    }
+    .stButton>button:hover {
+        background-color: #9d59f2;
+        transition: 0.2s ease-in-out;
+    }
+    .stProgress > div > div > div > div {
+        background-image: linear-gradient(90deg, #9d59f2, #7a3fd0);
+    }
+    .st-expanderHeader {
+        font-weight: bold;
+        color: #e0e0ff;
+    }
+    .stMarkdown, .stText, .stSubheader, .stCaption {
+        color: #e0e0ff;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 st.title("💰 Velu - Price Scraper Agent")
-st.markdown("Velu is an agent that can help you keep track of your figure-collecting wishlist and find you the lowest prices available at supported websites. Find out more at https://github.com/karikowska/velu-price-scraper.")
+st.markdown("Velu is an agent that can help you keep track of your figure-collecting wishlist and find you the lowest prices available at supported websites!")
+st.markdown("Find out more at https://github.com/karikowska/velu-price-scraper.")
 
 full_config = load_config()
 wishlist = full_config["products"]
@@ -22,18 +59,21 @@ st.markdown("You can change the wishlist and settings in the sidebar on the left
 
 st.sidebar.title("⚙️ Settings")
 
-edit_mode = st.sidebar.checkbox("Edit Wishlist & Config")
+edit_mode = st.sidebar.checkbox("Edit Wishlist")
 
 if edit_mode:
     st.subheader("✍️ Edit Wishlist")
+    st.markdown("Click on the product name to open up a menu and edit it.")
 
     updated_products = []
     for i, product in enumerate(full_config["products"]):
         with st.expander(f"Product {i+1}: {product['name']}"):
             name = st.text_input(f"Name", value=product["name"], key=f"name_{i}")
             max_price = st.number_input(f"Max Price ¥", value=product["max_price"], key=f"price_{i}")
+            desired_currency = st.selectbox(f"Currency", options=["JPY", "USD", "EUR", "GBP"], key=f"currency_{i}")
+            st.markdown(f"**Note**: The agent will only check prices in JPY, but you can set your preferred currency for the wishlist.")
             sites = st.multiselect(
-                f"Sites {i+1}",
+                f"Sites",
                 options=full_config["config"]["allowed_sites"],
                 default=product.get("sites", []),
                 key=f"sites_{i}"
@@ -46,7 +86,7 @@ if edit_mode:
 
     # st.subheader("🧮 Config")
     # interval = st.number_input("Price Check Interval (minutes)", value=full_config["config"]["check_interval_minutes"])
-
+    st.markdown("*Important*: To save your results, you must click the button below. This will overwrite your current wishlist and settings in the config file, with what you wrote above.")
     if st.button("💾 Save Changes"):
         new_config = {
             "products": updated_products,

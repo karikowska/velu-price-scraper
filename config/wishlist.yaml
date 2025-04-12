@@ -1,0 +1,22 @@
+config:
+  allowed_sites:
+  - search_amiami
+  - search_solaris
+  - search_ninningame
+  - search_animota
+  - search_gsce
+  - search_japanfigure
+  check_interval_minutes: 60
+products:
+- max_price: 35000
+  name: Hatsune Miku Expo 2023 1/7 Scale Figure
+  sites:
+  - search_solaris
+  - search_japanfigure
+  - search_ninningame
+- max_price: 10000
+  name: Hatsune Miku Infinity Nendoroid
+  sites:
+  - search_ninningame
+  - search_animota
+  - search_solaris

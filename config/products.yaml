@@ -1,10 +1,6 @@
-- name: Hatsune Miku Pop Up Parade Galaxy Live
+- name: Hatsune Miku Racing 2023 Nendoroid
   stores:
-    - amiami
+    - gsce
+    - anim
+    - jf
     - nng
-    - solaris
-
-- name: Hatsune Miku Virtual Popstar Ver.
-  stores:
-    - amiami
-    - solaris

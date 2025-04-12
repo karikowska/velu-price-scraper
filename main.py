@@ -1,31 +1,18 @@
+"""CLI-based price scraper for supported sites."""
 import sys
 import yaml
 from pathlib import Path
+from time import sleep
+from dotenv import load_dotenv
+import os
 
-from tools.scraper import get_html, get_text_snippets
-from agents.price_extractor_agent import extract_price_info
-from tools.amiami_search import get_search_results as amiami_search
-from tools.amazon_search import get_search_results as amazon_search
-from tools.solaris_search import get_search_results as solaris_search
-from tools.ninningame_search import get_search_results as ninningame_search
-from tools.google_search import search_google as google_search
-from agents.price_selector_agent import pick_best_listing
-from tools.ddg_search import search_duckduckgo
+load_dotenv(dotenv_path=".env", verbose=True)
+print(os.getenv("OPEN_API_KEY"))
 
-def shop_check(query: str, site: str):
-    if site == 'amzn':
-        links = amazon_search(query)
-    elif site == 'sol':
-        links = solaris_search(query)
-    elif site == 'ebay':
-        links = solaris_search(query)
-    elif site == 'aa':
-        links = amiami_search(query)
-    elif site == 'nng':
-        links = ninningame_search(query)
-        
-    return links
-
+from helpers.scraper import get_html, get_text_snippets
+from llms.price_extractor import extract_price_info
+from helpers.transformer_tools import embedding_ranker
+from helpers.other_helpers import shop_check
 
 def main() -> str:
     config = False
@@ -41,22 +28,34 @@ def main() -> str:
     else:
         print("Single query usage: python main.py '<product_query>' '<site>'")
         print("Multi-query usage: python main.py 'path/to/config/yaml'")
-        print("Supported sites: aa, ebay, amzn, sol, nng")
+        print("Supported sites: aa, anim, jf, sol, nng, gsce")
         return
 
     if config:
+        links = []
         for config_d in config:
-            for query, site_list in config_d.items():
-                for site in site_list:
-                    links = shop_check(query, site)
+            query = config_d["name"]
+            site_list = config_d["stores"]
+            for site in site_list:
+                links.append(shop_check(query, site))
+                sleep(2)
     
     else:
         links = shop_check(query, site)
         
     if not links:
         return "❌ No results found."
-
-    for link in links[:3]:
+    
+    links = embedding_ranker(links, query)
+    
+    try:
+        site_list
+    except NameError:
+        site_list = 0
+        
+    for link in links[:(len(site_list) if site_list>1 else 3)]:
+        if type(link) == list and len(link) > 1:
+            link = link[0]
         print(f"\n🔎 Scraping: {link['title']}\n{link['url']}")
         html = get_html(link["url"])
         snippet = get_text_snippets(html)
@@ -66,7 +65,7 @@ def main() -> str:
             continue
 
         result = extract_price_info(query, link["url"], snippet)
-        return f"💷 Price: {result['price']} | Raw: {result['raw_response']}"
+        print(f"💷 Price: {result['price']} | Raw: {result['raw_response']}")
         
 
 if __name__ == "__main__":

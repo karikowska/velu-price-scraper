@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Made%20with-Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
 </p>
 
-An AI-powered price-checking tool that scrapes figure listings from websites like **Solaris Japan**, extracts prices using **LangChain + OpenAI**, and intelligently fills in the price and picks the best matches. 
+An agentic/LLM-powered price-checking tool that scrapes figure listings from websites like **Solaris Japan**, extracts prices using **LangChain + OpenAI**, and intelligently fills in the price and picks the best matches. 
 
 I collect figures in my free time and love getting a good deal - but this can be time-consuming on the regular! I made this tool to speed the process up :)
 
@@ -16,13 +16,15 @@ I collect figures in my free time and love getting a good deal - but this can be
 ## ✨ Features
 
 - 🔍 Scrapes real-time product listings from supported sites
-- 💬 Uses an LLM agent to extract and interpret price information from messy HTML, and NLP methods to ensure that the output is relevant to the input query
-- 🗂️ Supports single-product CLI mode and batch YAML input
+- 2️⃣ Offers two modes:
+    - 🎇 LLM Mode: an LLM with NLP that will extract and interpret price information from messy HTML!
+    - 🗪 Agent Mode: an Agent that will find the lowest price below your budget by parsing your wishlist!
+- 🗂️ LLM Mode supports single-product CLI mode and batch YAML input
+- 📓 Agent Mode features a user-friendly UI
 - ⚙️ Modular and very easy to extend to other figure stores!
 
 ---
-
-## 🧪 Example Command & Output
+## 🧪 Example Command & Output for LLM Mode
 Command:
 ```
 $ python main.py "Hatsune Miku Rascal Trio-Try-It" sol
@@ -47,12 +49,12 @@ To install dependencies in this project, use the following command:
 pip install -r requirements.txt
 ```
 
-You'll also need an OpenAI API key. Set it in your terminal using ```export``` or place within a .env file as such:
+You'll also need an OpenAI API key. Set it in your terminal using ```export``` as such:
 ```
-OPENAI_API_KEY=...
+export OPENAI_API_KEY=...
 ```
 
-### 2. Usage
+### 2. Usage for LLM Mode
 #### Single item
 To run the single item price scraper, you will need the following command:
 ```
@@ -81,8 +83,48 @@ $ python main.py "path/to/config.yaml"
 
 If you type in too many stores + queries in a row in one YAML, you may run into an issue with token length. As the input and output of the LLM (for now at least) is not being closely prompt-engineered to perfection, it might take a few retries to get it your request under token i/o limit.
 
-### 3. Supported Stores
-Currently, the supported services are:
+### 3. Usage for Agent Mode
+
+To start up the app, be in the project root and run:
+```
+$ streamlit run app.py
+```
+This command will launch the app locally within your browser.
+
+#### Wishlist
+The agent price-scrapes based on your wishlist, which is within ```config/wishlist.yaml```.
+
+Here is an example wishlist:
+```
+config:
+  allowed_sites:
+  - search_amiami
+  - search_solaris
+  - search_ninningame
+  - search_animota
+  - search_gsce
+  - search_japanfigure
+  currency: JPY
+products:
+- max_price: 35000
+  name: Hatsune Miku Expo 2023 1/7 Scale Figure
+  sites:
+  - search_solaris
+  - search_japanfigure
+  - search_ninningame
+- max_price: 10000
+  name: Hatsune Miku Infinity Nendoroid
+  sites:
+  - search_ninningame
+  - search_animota
+  - search_solaris
+```
+You are able to edit the wishlist through the YAML and within the web app as well, by clicking on the left sidebar and ticking 'Edit Wishlist'.
+
+When your wishlist is ready, ensure you have saved your changes, then click 'Run Velu!' and wait for a few minutes to get your scraped results :)
+
+### 4. Supported Stores
+Currently, the supported services for both modes are:
 - Solaris Japan == ```sol```
 - Nin-Nin Game == ```nng```
 - Animota == ```anim```
@@ -99,9 +141,9 @@ This project has:
 
 🐍 Reinforced my Python skills
 
-🌐 Taught me web scraping with BeautifulSoup4
+🌐 Taught me web scraping with BeautifulSoup4, and how to create simple UI with Streamlit
 
-🧠 Introduced me to LangChain, effective prompting, and handling token limitations
+🧠 Introduced me to LangChain, agentic tooling and capabilities, effective prompting, and handling token limitations
 
 🔤 Refreshed my NLP skills, including usage of SentenceTransformers and vector embeddings
 
@@ -118,17 +160,20 @@ This project has:
 - [x] add Playwright to preload bits of websites
 - [x] expand functionality to more websites than just Solaris Japan
 - [x] add other stores like Animota, Japan Figure Store... (if they are scrapable!)
+- [x] use embeddings to score whether the titles of the products are relevant to the query
+- [x] add a wishlist feature (YAML) - user has a wishlist which they can run the scraper on regularly to monitor for current best prices in the file
+- [x] add agentic mode for more autonomous scraping
+- [x] add preferred budget per figure (YAML) - results will not be shown unless they are less than the budget!
+- [x] add Streamlit integration to talk to the LLM directly?
+- [x] add web UI or a dashboard to show results
+- [ ] make demo gif of both capabilities
 - [ ] add reseller sites like Depop, Vinted or Ebay
 - [ ] add JP stores like Mercari.jp and Buyee with translation
-- [x] use embeddings to score whether the titles of the products are relevant to the query
-- [ ] add NLP to replace where an LLM doesn't need to be to optimise i/o tokens!
-- [ ] add a wishlist feature (YAML) - user has a wishlist which they can run the scraper on regularly to monitor for current best prices in the file (automation through Bash script?)
-- [ ] add preferred budget per figure (YAML) - results will not be shown unless they are less than the budget!
+- [ ] add NLP to replace where an LLM doesn't need to be to optimise i/o tokens for LLM Mode
+- [ ] add a scheduler for automatic runs for Agent Mode
 - [ ] look into why AmiAmi can't have its prices scraped and if we can go around that
 - [ ] add unit tests
-- [ ] add database integration to save results
-- [ ] add Streamlit integration to talk to the LLM directly?
-- [ ] add web UI or a dashboard to show results
+- [ ] add database integration to save results?
 - [ ] add license to repo
 
 ---

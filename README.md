@@ -167,6 +167,7 @@ This project has:
 - [x] add Streamlit integration to talk to the LLM directly?
 - [x] add web UI or a dashboard to show results
 - [ ] make demo gif of both capabilities
+- [ ] add currency conversion that works
 - [ ] add reseller sites like Depop, Vinted or Ebay
 - [ ] add JP stores like Mercari.jp and Buyee with translation
 - [ ] add NLP to replace where an LLM doesn't need to be to optimise i/o tokens for LLM Mode

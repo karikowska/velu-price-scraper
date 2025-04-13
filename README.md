@@ -40,6 +40,11 @@ The price of the Araiguma Rascal - Vocaloid - Hatsune Miku - Rascal - Trio-Try-i
 ```
 
 ---
+## 🧪 Preview of UI for Agentic Mode
+
+<p align="center">
+  <img src="veluscreen2.png" alt="velu screenshot of ui" width="800"/>
+</p>
 
 ## 🚀 Getting Started
 

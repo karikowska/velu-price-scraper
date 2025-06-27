@@ -59,6 +59,12 @@ You'll also need an OpenAI API key. Set it in your terminal using ```export``` a
 export OPENAI_API_KEY=...
 ```
 
+Ensure you also run in the terminal:
+```
+playwright install
+```
+to enable the agent to crawl the web!
+
 ### 2. Usage for LLM Mode
 #### Single item
 To run the single item price scraper, you will need the following command:

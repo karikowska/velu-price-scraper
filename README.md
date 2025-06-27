@@ -63,6 +63,11 @@ Ensure you also run in the terminal:
 ```
 playwright install
 ```
+and 
+```
+playwright install
+```
+
 to enable the agent to crawl the web!
 
 ### 2. Usage for LLM Mode

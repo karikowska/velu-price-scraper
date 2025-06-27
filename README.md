@@ -65,7 +65,7 @@ playwright install
 ```
 and 
 ```
-playwright install
+playwright install-deps
 ```
 
 to enable the agent to crawl the web!

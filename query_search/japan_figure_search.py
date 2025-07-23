@@ -18,7 +18,7 @@ def get_search_results(query: str, limit=5) -> list[dict[str, str]]:
         
         url = "https://japan-figure.com" + item.select_one("a")["href"]
         
-        title_tag = item.select_one("h2.productitem--title")
+        title_tag = item.select_one("span.visually-hidden")
         title = title_tag.get_text(strip=True) if title_tag else None
 
         if not (title and url):

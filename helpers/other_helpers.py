@@ -23,6 +23,7 @@ def shop_check(query: str, site: str):
         
     return links
 
+UNIVERSAL_TOOLS = {"extract_price_from_html", "convert_currency", "compare_prices"}
 
 def prepare_agent_for_product(product: dict, all_tools: list, config: dict) -> tuple[list, str]:
     name = product["name"]
@@ -31,7 +32,7 @@ def prepare_agent_for_product(product: dict, all_tools: list, config: dict) -> t
 
     selected_tools = [
         tool for tool in all_tools
-        if tool.name in site_names or tool.name == "extract_price_from_html"
+        if tool.name in site_names or tool.name in UNIVERSAL_TOOLS
     ]
 
     # Generate prompt
@@ -43,19 +44,34 @@ def prepare_agent_for_product(product: dict, all_tools: list, config: dict) -> t
         1. Use ONLY these search tools: {', '.join(site_names)}.
         2. For each result URL returned by these tools, call extract_price_from_html(url).
         3. Collect all prices and URLs.
-        4. Collect all listings where compare_prices(price, budget) returns 'UNDER BUDGET'.
-        5. From those, select the listing with the lowest price.
-        6. If there are listings under budget:
-            - Pick the one with the lowest price
-            - Return: "Found {{name}} at ¥{{price}} from {{site}}: {{url}}"
+        4. Collect all listings where compare_prices(price, budget) returns 'UNDER BUDGET'.To check if a price is within budget, call:
+            compare_prices([price_in_yen, budget_in_yen])
+
+            Example:
+            compare_prices([4210, 5000])
+        When the extracted price is not in JPY, you MUST call the convert_currency tool.
+
+        DO NOT proceed or compare the price directly in other currencies.
+        DO NOT write out your own exchange rate or convert manually.
+
+        Correct flow:
+        - Extract price → {{'amount': 53.54, 'currency': 'USD'}}
+        - Call: convert_currency("53.54, USD, JPY")
+        - Receive: 8020
+        - Compare to budget
+
+        NEVER skip the conversion step. It is required if currency is not already JPY.
+
+        5. From those, select the listing with the lowest price. Return: Found {{name}} at ¥{{price}} from {{site}}: {{url}}
             
         Example:  
-            If extract_price_from_html(url) returned 14200, and the site is AmiAmi, return:  
-            "Found {{name}} at ¥14200 from AmiAmi: https://amiami.com/product/FIGURE-123"
+            If extract_price_from_html(url) returned 14200, 14200 is below budget, and the site is AmiAmi, return:  
+            Found {{name}} at ¥14200 from AmiAmi: https://amiami.com/product/FIGURE-123
 
-        7. If no listings are under budget:
+        6. If no listings are under budget:
             - Pick the cheapest one overall
-            - Return: "{{name}} is not available under ¥{{budget}}, but the cheapest available is ¥{{price}} from {{site}}: {{url}}"
+            - Return: {{name}} is not available under ¥{{budget}}, but the cheapest available is ¥{{price}} from {{site}}: {{url}}
+            - MAKE SURE YOU INSERT THE URL AT THE END.
             
         Example:
             If your price results are:
@@ -64,10 +80,10 @@ def prepare_agent_for_product(product: dict, all_tools: list, config: dict) -> t
             - Ninningame: ¥4800
 
             And the budget is ¥4500, return:
-            "{{name}} is not available under ¥4500, but the cheapest available is ¥4800 from Ninningame: {{url}}"
+            {{name}} is not available under ¥4500, but the cheapest available is ¥4800 from Ninningame: {{url}}
             
         8. If no listings are found on any website:
-            - Return: "{{name}} is not available under ¥{{budget}}."
+            - Return: {{name}} is not available under ¥{{budget}}.
 
         Important:
         - Always extract and store (site, url, price) triples
@@ -75,8 +91,13 @@ def prepare_agent_for_product(product: dict, all_tools: list, config: dict) -> t
         - Reuse the real values returned by extract_price_from_html(url)
 
         Return your result as the final answer. Do not call any tool to report it. Never use brackets like <url> or <price> — always use real values from tool results.
-        Important: NEVER guess whether a price is under or over budget. Always use compare_prices(price, budget) to make this decision. Keep a running list of all (site, url, price) triples you extract.
-        Only compare listings that are under budget."""
+        Important: NEVER guess whether a price is under or over budget. Always use compare_prices(price_budget) to make this decision. Keep a running list of all (site, url, price) triples you extract.
+        Only compare listings that are under budget.
+        Important:
+        After extracting the price, you will receive a dictionary with 'amount' and 'currency'.
+        If 'currency' is not JPY, call convert_currency(amount, currency, "JPY") to convert it. Do NOT convert it manually.
+        """
+
 
     return selected_tools, prompt
 

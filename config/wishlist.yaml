@@ -7,9 +7,24 @@ config:
   - search_gsce
   - search_japanfigure
 products:
-- max_price: 35000
-  name: Hatsune Miku Expo 2023 1/7 Scale Figure
+- max_price: 12000
+  name: Hatsune Miku 2021 Racing Nendoroid
   sites:
   - search_solaris
-  - search_japanfigure
   - search_ninningame
+  - search_animota
+- max_price: 7500
+  name: Hatsune Miku Trio Try It Rascal
+  sites:
+  - search_solaris
+  - search_ninningame
+  - search_japanfigure
+- max_price: 9000
+  name: Nendoroid Hatsune Miku ∞ Ver
+  sites:
+  - search_amiami
+  - search_solaris
+  - search_ninningame
+  - search_animota
+  - search_gsce
+  - search_japanfigure

@@ -14,6 +14,7 @@ from tools.site_tools import (
 
 from tools.extractor import extract_price_from_html
 from tools.compare_price import compare_prices
+from tools.currency import convert_currency
 from helpers.other_helpers import prepare_agent_for_product
 
 tools = [
@@ -25,12 +26,15 @@ tools = [
     search_japanfigure,
     extract_price_from_html,
     compare_prices,
+    convert_currency,
 ]
 
+# load wishlist from yaml
 def load_wishlist(path="config/wishlist.yaml"):
     with open(path, "r") as f:
         return yaml.safe_load(f)
-
+    
+# load llm
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
 wishlist = load_wishlist()

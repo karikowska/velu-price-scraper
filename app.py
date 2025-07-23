@@ -6,6 +6,7 @@ from agent import tools, llm  # your tool list and LLM
 from langchain.agents import initialize_agent, AgentType
 from helpers.other_helpers import load_config
 
+# visuals
 st.set_page_config(page_title="Velu - Price Scraper Agent", page_icon="💰")
 
 st.markdown("""
@@ -43,6 +44,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# page intro
 logo_col1, logo_col2, logo_col3 = st.columns([1, 2, 1])
 with logo_col2:
     st.image("velu_logo.png", width=200)
@@ -61,10 +63,12 @@ for item in wishlist:
     st.markdown(f"- **{item['name']}** — Max ¥{item['max_price']}")
 st.markdown("You can change the wishlist and settings in the sidebar on the left before submitting it to the agent.")
 
+# sidebar and edit mode setting
 st.sidebar.title("⚙️ Settings")
 
 edit_mode = st.sidebar.checkbox("Edit Wishlist")
 
+# if edit mode is on, then show editable wishlist
 if edit_mode:
     if "editable_products" not in st.session_state:
         st.session_state.editable_products = full_config["products"]
@@ -72,40 +76,44 @@ if edit_mode:
     st.subheader("✍️ Edit Wishlist")
     st.markdown("Click on the product name to open up a menu and edit it. You can click on the bin icon on the right to delete an item. Keep in mind that after deleting, the item will be erased from the YAML file but you must save and refresh the page for the UI to update.")
 
-    updated_products = []
-    for i, product in enumerate(full_config["products"]):
+# append new item
+    for i in range(len(st.session_state.editable_products)):
+        product = st.session_state.editable_products[i]
         cols = st.columns([10, 1])
         with cols[0].expander(f"Product {i+1}: {product['name']}"):
-            name = st.text_input(f"Name", value=product["name"], key=f"name_{i}")
-            max_price = st.number_input(f"Max Price ¥", value=product["max_price"], key=f"price_{i}")
-            desired_currency = st.selectbox(f"Currency", options=["JPY", "USD", "EUR", "GBP"], key=f"currency_{i}")
-            st.markdown("**Note**: The agent will only check prices in JPY, but you can set your preferred currency for the wishlist.")
+            name = st.text_input("Name", value=product["name"], key=f"name_{i}")
+            max_price = st.number_input("Max Price ¥", value=product["max_price"], key=f"price_{i}")
             sites = st.multiselect(
-                f"Sites",
+                "Sites",
                 options=full_config["config"]["allowed_sites"],
                 default=product.get("sites", []),
                 key=f"sites_{i}"
             )
-            updated_products.append({
+
+            # Update the item directly in session state
+            st.session_state.editable_products[i] = {
                 "name": name,
                 "max_price": max_price,
                 "sites": sites
-            })
+            }
+
         if cols[1].button("🗑️", key=f"delete_{i}"):
             st.session_state.editable_products.pop(i)
             st.rerun()
 
-
-    st.markdown("### ➕ Add New Item")
+# add new item to wishlist
+    st.markdown("### ➕ Add Item to Wishlist")
     with st.form("add_product_form"):
         new_name = st.text_input("New Product Name")
         new_price = st.number_input("New Max Price ¥", min_value=0, value=5000)
         new_sites = st.multiselect("Sites to Search", options=full_config["config"]["allowed_sites"], default=full_config["config"]["allowed_sites"])
         submitted = st.form_submit_button("Add to Wishlist")
         if submitted and new_name:
-            updated_products.append({"name": new_name, "max_price": new_price, "sites": new_sites})
+            st.session_state.editable_products.append({"name": new_name, "max_price": new_price, "sites": new_sites})
             st.success(f"Added: {new_name}")
+            st.rerun()
 
+# save changes to wishlist
     st.markdown("*Important*: To save your results, you must click the button below. This will overwrite your current wishlist and settings in the config file, with what you wrote above.")
     if st.button("💾 Save Changes"):
         new_config = {
@@ -114,6 +122,8 @@ if edit_mode:
                 "allowed_sites": full_config["config"]["allowed_sites"]
             }
         }
+        st.write("Saving this config:")
+        st.json(new_config)
         with open("config/wishlist.yaml", "w", encoding="utf-8") as f:
             yaml.dump(new_config, f, allow_unicode=True)
         st.success("✅ Wishlist updated!")
@@ -125,6 +135,7 @@ if st.button("Run Velu!"):
         total = len(wishlist)
         progress_bar = st.progress(0)
 
+        # init the agent and prompt the agent for each product present on the wishlist
         for i, product in enumerate(wishlist):
             selected_tools, prompt = prepare_agent_for_product(product, tools, full_config["config"])
             agent = initialize_agent(
@@ -137,10 +148,11 @@ if st.button("Run Velu!"):
             result = agent.run(prompt)
             results.append((product["name"], result))
 
-            # update progress
+            # update progress for progress bar
             progress = (i + 1) / total
             progress_bar.progress(progress)
 
+# show results post-scraping
     st.success("✅ All done!")
     st.subheader("📊 Velu's best finds:")
 
@@ -148,4 +160,4 @@ if st.button("Run Velu!"):
         with st.expander(f"{name}"):
             st.markdown(result)
 
-st.caption("This app uses LangChain to compare prices from configured stores and show the lowest one below your budget.")
+st.caption("This app uses an OpenAI model to compare prices from configured stores and show the lowest one below your budget.")

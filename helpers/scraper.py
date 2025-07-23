@@ -18,14 +18,14 @@ FAKE_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, 
 def browser_loader(link: str, query: str, product_grid_tag: str, grid_item_tag: str) -> list[dict[str, str]]:
     """Initialize a browser session using Playwright."""
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page(user_agent=FAKE_UA)
         page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         page.goto(link)
         try:
-            page.wait_for_selector(product_grid_tag, timeout=10_000)
+            page.wait_for_selector(product_grid_tag, timeout=20_000)
         except PlaywrightTimeoutError:
-            print(f"Timeout: '{product_grid_tag}' not found on the page after 10 seconds.")
+            print(f"Timeout: '{product_grid_tag}' not found on the page after 10 seconds. The item cannot be found on the store's page. It may not exist as a listing or the page may be broken or unable to be loaded.")
             browser.close()
             return []
         
@@ -40,6 +40,7 @@ def browser_loader(link: str, query: str, product_grid_tag: str, grid_item_tag: 
 
 def get_html(url: str) -> str:
     """Fetch raw HTML from the given URL."""
+    
     try:
         response = requests.get(url, headers=HEADERS, timeout=10)
         response.raise_for_status()
@@ -50,6 +51,8 @@ def get_html(url: str) -> str:
 
 
 def get_text_snippets(html: str, limit=10) -> str:
+    """Obtain text snippets from HTML that look like prices using regex."""
+    
     soup = BeautifulSoup(html, "html.parser")
     snippets = set()
 
